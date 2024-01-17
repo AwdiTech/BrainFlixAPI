@@ -15,7 +15,7 @@ async function readData() {
 router.get('/', async (req, res) => {
     try {
         const videosData = await readData();
-        res.json(videosData["videos"]);
+        res.status(200).json(videosData["videos"]);
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error in retrieving videos");
@@ -27,10 +27,27 @@ router.get('/:id', async (req, res) => {
 
     try {
         const videosData = await readData();
-        res.json(videosData["video-details"].find(video => video.id === videoId));
+        res.status(200).json(videosData["video-details"].find(video => video.id === videoId));
     } catch (err) {
         console.error(err);
-        res.status(500).send("Server error in retrieving videos");
+        res.status(500).send("Server error in retrieving video data...");
+    }
+});
+
+router.post('/', async (req, res) => {
+    const newVideo = req.body.video;
+    const newVideoDetails = req.body.videoDetails;
+
+    try {
+        const videosData = await readData();
+        videosData["videos"].push(newVideo);
+        videosData["video-details"].push(newVideoDetails);
+        await fs.writeFile('./data/videos.json', JSON.stringify(videosData));
+        res.status(200).send(videosData["video-details"].find( video => video.id === newVideoDetails.id));
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send("Server error in saving new video...")
     }
 });
 
