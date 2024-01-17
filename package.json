@@ -1,0 +1,14 @@
+{
+  "name": "rabih-awdi-brainflix-api",
+  "version": "1.0.0",
+  "description": "API Server Functionality for BrainFlix",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Awdi-Tech",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
