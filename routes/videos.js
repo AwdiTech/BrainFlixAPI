@@ -15,7 +15,19 @@ async function readData() {
 router.get('/', async (req, res) => {
     try {
         const videosData = await readData();
-        res.json(videosData.videos);
+        res.json(videosData["videos"]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error in retrieving videos");
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const videoId = req.params.id;
+
+    try {
+        const videosData = await readData();
+        res.json(videosData["video-details"].find(video => video.id === videoId));
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error in retrieving videos");
