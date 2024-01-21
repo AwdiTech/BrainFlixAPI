@@ -57,8 +57,10 @@ The API server will start running on http://localhost:8080 by default.
 
 `PUT /videos/:videoId/comments/:commentId/likes` - Increments the like count for a comment.
 
+---
 
-Usage
+#### Usage
+
 Here's an example of how to fetch the list of videos using fetch:
 
 ```js
