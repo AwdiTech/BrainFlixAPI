@@ -5,6 +5,7 @@
  * 
  * @module routes/videos
  * @requires express
+ * @requires multer
  */
 
 const express = require('express');
