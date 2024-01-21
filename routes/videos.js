@@ -12,6 +12,13 @@ const router = express.Router();
 const fs = require('fs').promises;
 const multer = require('multer');
 
+
+// ----- Helper Functions -----
+
+/**
+ * Read and parse video data from the JSON file.
+ * @returns {Promise} A promise that resolves with the parsed video data.
+ */
 async function readData() {
     try {
         const data = await fs.readFile('./data/videos.json', 'utf8');
@@ -22,6 +29,11 @@ async function readData() {
     }
 }
 
+/**
+ * Write video data to the JSON file.
+ * @param {Object} videosData - The updated video data to be written.
+ * @returns {Promise} A promise that resolves once the data is written.
+ */
 async function writeData(videosData) {
     try {
         await fs.writeFile('./data/videos.json', JSON.stringify(videosData));
@@ -32,6 +44,7 @@ async function writeData(videosData) {
     }
 }
 
+// Multer configuration for handling file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/images');
@@ -45,6 +58,9 @@ const upload = multer({ storage: storage, limits: { fieldSize: 20 * 1024 * 1024 
 
 // ---- Endpoint Routes -----
 
+/**
+ * GET request to retrieve all videos.
+ */
 router.get('/', async (req, res) => {
     try {
         const videosData = await readData();
@@ -55,6 +71,10 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * GET request to retrieve video details by ID.
+ * @param {string} id - The ID of the video to retrieve.
+ */
 router.get('/:id', async (req, res) => {
     const videoId = req.params.id;
 
@@ -67,6 +87,13 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+/**
+ * POST request to add a new video.
+ * This route handles the addition of a new video with details.
+ * @param {Object} req.body.newVideo - The JSON object containing new video information.
+ * @param {Object} req.body.newVideoDetails - The JSON object containing additional details of the new video.
+ * @param {string} req.file - The uploaded image file for the video's thumbnail (if provided).
+ */
 router.post('/', upload.single('image'), async (req, res) => {
     console.log(req.body);
     const newVideo = JSON.parse(req.body.newVideo);
@@ -98,6 +125,12 @@ router.post('/', upload.single('image'), async (req, res) => {
     }
 });
 
+
+/**
+ * POST request to add a new video comment.
+ * @param {string} videoId - The ID of the video to which the comment is added.
+ * @param {Object} req.body - The new comment data.
+ */
 router.post('/:videoId/comments', async (req, res) => {
     const videoId = req.params.videoId;
     const newComment = req.body;
@@ -115,6 +148,12 @@ router.post('/:videoId/comments', async (req, res) => {
     }
 });
 
+
+/**
+ * DELETE request to delete a comment by ID.
+ * @param {string} videoId - The ID of the video from which the comment is deleted.
+ * @param {string} commentId - The ID of the comment to delete.
+ */
 router.delete('/:videoId/comments/:commentId', async (req, res) => {
     const videoId = req.params.videoId;
     const commentId = req.params.commentId;
@@ -132,6 +171,10 @@ router.delete('/:videoId/comments/:commentId', async (req, res) => {
 });
 
 
+/**
+ * PUT request to increment likes for a video.
+ * @param {string} videoId - The ID of the video to which likes are added.
+ */
 router.put('/:videoId/likes', async (req, res) => {
     const videoId = req.params.videoId;
     
@@ -156,6 +199,12 @@ router.put('/:videoId/likes', async (req, res) => {
     }
 });
 
+
+/**
+ * PUT request to increment likes for a comment on a video.
+ * @param {string} videoId - The ID of the video to which the comment belongs.
+ * @param {string} commentId - The ID of the comment to which likes are added.
+ */
 router.put('/:videoId/comments/:commentId/likes', async (req, res) => {
     const videoId = req.params.videoId;
     const commentId = req.params.commentId;
