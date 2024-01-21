@@ -43,13 +43,19 @@ The API server will start running on http://localhost:8080 by default.
 
 ## API Endpoints
 
-GET /videos - Retrieves a list of all videos.
-GET /videos/:id - Retrieves details of a single video by ID.
-POST /videos - Adds a new video to the list (requires a JSON body with video details).
-POST /videos/:videoId/comments - Adds a new comment to a video.
-DELETE /videos/:videoId/comments/:commentId - Deletes a comment from a video.
-PUT /videos/:videoId/likes - Increments the like count for a video.
-PUT /videos/:videoId/comments/:commentId/likes - Increments the like count for a comment.
+`GET /videos` - Retrieves a list of all videos.
+
+`GET /videos/:id` - Retrieves details of a single video by ID.
+
+`POST /videos` - Adds a new video to the list (requires a JSON body with video details).
+
+`POST /videos/:videoId/comments` - Adds a new comment to a video.
+
+`DELETE /videos/:videoId/comments/:commentId` - Deletes a comment from a video.
+
+`PUT /videos/:videoId/likes` - Increments the like count for a video.
+
+`PUT /videos/:videoId/comments/:commentId/likes` - Increments the like count for a comment.
 
 
 Usage
